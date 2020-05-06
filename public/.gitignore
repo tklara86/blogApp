@@ -6,4 +6,5 @@ node_modules
 #vscode settings
 .vscode/settings.json
 #vscode settings
-config/config.php
+
+app/config/config.php
