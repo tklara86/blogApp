@@ -1,0 +1,8 @@
+#node modules
+node_modules
+#DS_Store
+.DS_Store
+#sourcemaps
+src/css/maps/*.map
+#vscode settings
+.vscode/settings.json
