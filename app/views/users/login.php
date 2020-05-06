@@ -1,5 +1,8 @@
 <!-- HEADER -->
 <?php require APPROOT . '/views/inc/header.php'; ?>
+<div class="uk-container uk-container-xsmall uk-margin-medium-top js-flash-message">
+  <?php flash('register_success'); ?>
+</div>
 <div class="uk-container uk-container-xsmall uk-margin-medium-top uk-background-muted uk-padding-large">
   <h1>Login</h1>
   <p>Please fill in your credentials to login</p>
@@ -8,7 +11,7 @@
     <div class="uk-margin">
       <label class="uk-form-label" for="email">Email:</label>
       <div class="uk-form-controls">
-        <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') { ?>
+        <?php if (!empty($data['email_error'])) { ?>
           <div class="uk-alert-danger" uk-alert>
             <a class="uk-alert-close" uk-close></a>
             <p><?php echo $data['email_error']; ?></p>
@@ -23,7 +26,7 @@
     <div class="uk-margin">
       <label class="uk-form-label" for="password">Password:</label>
       <div class="uk-form-controls">
-        <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') { ?>
+        <?php if (!empty($data['password_error'])) { ?>
           <div class="uk-alert-danger" uk-alert>
             <a class="uk-alert-close" uk-close></a>
             <p><?php echo $data['password_error']; ?></p>

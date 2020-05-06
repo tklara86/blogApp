@@ -3,6 +3,7 @@ class Users extends Controller
 {
   public function __construct()
   {
+    $this->userModel = $this->model('User');
   }
 
   public function register()
@@ -28,6 +29,11 @@ class Users extends Controller
       // Validate email
       if (empty($data['email'])) {
         $data['email_error'] = 'Please enter email';
+      } else {
+        // Check email
+        if ($this->userModel->findUserByEmail($data['email'])) {
+          $data['email_error'] = 'Email is aready taken';
+        }
       }
 
       // Validate name
@@ -53,8 +59,16 @@ class Users extends Controller
 
       // Make sure errors are empty
       if (empty($data['email_error']) && empty($data['name_error']) && empty($data['password_error']) && empty($data['confirm_password_error'])) {
-        // Validated
-        die('Success');
+        // Hash password
+        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+        // Register user
+        if ($this->userModel->register($data)) {
+          flash('register_success', 'You are registered and can log in');
+          redirect('users/login');
+        } else {
+          die('Something went wrong');
+        }
       } else {
         $this->view('users/register', $data);
       }
@@ -100,10 +114,26 @@ class Users extends Controller
         $data['password_error'] = 'Please enter password';
       }
 
+      // check for user/email
+      if ($this->userModel->findUserByEmail($data['email'])) {
+        // User Found
+      } else {
+        $data['email_error'] = 'No user found';
+      }
       // Make sure errors are empty
       if (empty($data['email_error']) && empty($data['password_error'])) {
         // Validated
-        die('Success');
+        // Check and set logged in user
+        $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+
+        if ($loggedInUser) {
+          // Create session
+          $this->createUserSession($loggedInUser);
+        } else {
+          $data['password_error'] = 'Password incorrect';
+
+          $this->view('users/login', $data);
+        }
       } else {
         $this->view('users/login', $data);
       }
@@ -118,6 +148,32 @@ class Users extends Controller
 
       // Load view
       $this->view('users/login', $data);
+    }
+  }
+
+  public function createUserSession($user)
+  {
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['user_email'] = $user['email'];
+    $_SESSION['user_name'] = $user['name'];
+    redirect('pages/index');
+  }
+
+  public function logout()
+  {
+    unset($_SESSION['user_id']);
+    unset($_SESSION['email']);
+    unset($_SESSION['name']);
+    session_destroy();
+    redirect('users/login');
+  }
+
+  public function isLoggedIn()
+  {
+    if (isset($_SESSION['user_id'])) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

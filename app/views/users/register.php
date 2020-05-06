@@ -8,7 +8,7 @@
     <div class="uk-margin">
       <label class="uk-form-label" for="name">Name:</label>
       <div class="uk-form-controls">
-        <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($data['name']) == true) { ?>
+        <?php if (!empty($data['name_error'])) { ?>
           <div class="uk-alert-danger" uk-alert>
             <a class="uk-alert-close" uk-close></a>
             <p><?php echo $data['name_error']; ?></p>
@@ -22,7 +22,7 @@
       <div class="uk-margin">
         <label class="uk-form-label" for="email">Email:</label>
         <div class="uk-form-controls">
-          <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') { ?>
+          <?php if (!empty($data['email_error'])) { ?>
             <div class="uk-alert-danger" uk-alert>
               <a class="uk-alert-close" uk-close></a>
               <p><?php echo $data['email_error']; ?></p>
@@ -37,7 +37,7 @@
       <div class="uk-margin">
         <label class="uk-form-label" for="password">Password:</label>
         <div class="uk-form-controls">
-          <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') { ?>
+          <?php if (!empty($data['password_error'])) { ?>
             <div class="uk-alert-danger" uk-alert>
               <a class="uk-alert-close" uk-close></a>
               <p><?php echo $data['password_error']; ?></p>
@@ -53,7 +53,7 @@
       <div class="uk-margin">
         <label class="uk-form-label" for="confirm_password">Confirm password:</label>
         <div class="uk-form-controls">
-          <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') { ?>
+          <?php if (!empty($data['confirm_password_error'])) { ?>
             <div class="uk-alert-danger" uk-alert>
               <a class="uk-alert-close" uk-close></a>
               <p><?php echo $data['confirm_password_error']; ?></p>
