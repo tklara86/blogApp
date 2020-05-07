@@ -58,4 +58,16 @@ class User
       return false;
     }
   }
+
+  // Find user by email
+  public function fetchUserById($id)
+  {
+    $this->db->query('SELECT * FROM users WHERE id = :id');
+    // Bind values
+    $this->db->bind(':id', $id);
+
+    $row = $this->db->single();
+
+    return $row;
+  }
 }

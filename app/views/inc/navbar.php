@@ -2,6 +2,15 @@
   <div class="uk-navbar-right">
 
     <ul class="uk-navbar-nav">
+      <?php if (isset($_SESSION['user_id'])) { ?>
+        <?php
+        $user_name = explode(' ', $_SESSION['user_name']);
+        $user_first_name = $user_name[0];
+
+        ?>
+        <li><a href="#">Welcome back, <?php echo $user_name[0]; ?></a></li>
+
+      <?php } ?>
       <li><a href="<?php echo URLROOT; ?>">Home</a></li>
       <li><a href="<?php echo URLROOT; ?>pages/about">About</a></li>
       <li>
