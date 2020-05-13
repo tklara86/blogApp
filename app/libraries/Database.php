@@ -14,6 +14,7 @@ class Database
   private $user = DB_USER;
   private $password = DB_PASSWORD;
   private $db_name = DB_NAME;
+  // private $db_port = DB_PORT;
 
   private $connection;
   private $stmt;
@@ -22,10 +23,12 @@ class Database
   public function __construct()
   {
     // Set dsn
+    // $dsn = 'pgsql:host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->db_name . ';user=' . $this->user . ';password=' . $this->password . '';
     $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->db_name;
     $options = array(
       PDO::ATTR_PERSISTENT => true,
-      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+      PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     );
 
     // Create PDO instance
@@ -75,14 +78,14 @@ class Database
   public function resultSet()
   {
     $this->execute();
-    return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $this->stmt->fetchAll();
   }
 
-  // Get single record as
+  // Get single record 
   public function single()
   {
     $this->execute();
-    return $this->stmt->fetch(PDO::FETCH_ASSOC);
+    return $this->stmt->fetch();
   }
 
   // Get row count
